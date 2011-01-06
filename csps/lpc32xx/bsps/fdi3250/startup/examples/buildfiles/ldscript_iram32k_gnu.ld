@@ -36,7 +36,7 @@ SECTIONS
     .text :
     {
         /* Start of .text segment */
-        startup_entry.o *(.text .text.*) 		
+        ${s_entry} *(.text .text.*)
     }
 
     /* Define a readonly data section in flash that resides at the
@@ -46,6 +46,11 @@ SECTIONS
         /* Place all .rodata regions in this section. */
         *(.rodata .rodata.*); 
     }
+
+	.ARM.extab	: { *(.ARM.extab* .gnu.linkonce.armextab.*) }
+	__exidx_start = .;
+	.ARM.exidx	: { *(.ARM.exidx* .gnu.linkonce.armexidx.*) }
+	__exidx_end = .;
 
     /* (Real) End of .text segment */
     /* Set up the location counter for the data area */

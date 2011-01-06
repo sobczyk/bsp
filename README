@@ -1,0 +1,27 @@
+LPC3250 Board Pupport Package
+
+Default makefiles work for windows only.
+After some fixes the makefiles may work on linux, although CMake is preffered.
+
+Out of source build is preferred:
+
+mkdir build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain_arm.cmake ..
+make
+
+
+One has to have the proper arm toolchain in PATH;
+currently arm-linux- is set
+can be changed in toolchain_arm.cmake
+
+
+Working:
+- build Kickstart with .bin
+- build s1l with .bin
+- ONLY FDI3250 dev board
+
+TODO:
+
+- build burners
+- add custom board

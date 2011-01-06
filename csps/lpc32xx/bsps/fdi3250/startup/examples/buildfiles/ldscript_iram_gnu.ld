@@ -36,7 +36,7 @@ SECTIONS
     .text :
     {
         /* Start of .text segment */
-        startup_entry.o *(.text .text.*) 		
+        ${s_entry} *(.text .text.*)
     }
 
     /* Define a readonly data section in flash that resides at the

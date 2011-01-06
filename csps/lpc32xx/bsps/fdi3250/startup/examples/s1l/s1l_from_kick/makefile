@@ -117,7 +117,8 @@ ENTRY       =
 CFLAGS      += -I $(NXPMCU_SOFTWARE)/ip/s1l/include
 endif
 
-VPATH += $(NXPMCU_SOFTWARE)/ip/s1l/source;
+VPATH = $(NXPMCU_SOFTWARE)/ip/s1l/source;
+vpath = %.c $(NXPMCU_SOFTWARE)/ip/s1l/source
 
 ########################################################################
 #
@@ -132,18 +133,22 @@ include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.ftypes
 #
 ########################################################################
 
-OBJS += s1l_bootmgr.o s1l_cmds.o s1l_cmds_core.o s1l_cmds_flash.o
-OBJS += s1l_cmds_image.o s1l_except.o s1l_fat.o s1l_image_mngt.o
-OBJS += s1l_line_input.o s1l_memtests.o s1l_movdat.o s1l_sys.o
+sl1src = s1l_bootmgr.o s1l_cmds.o s1l_cmds_core.o s1l_cmds_flash.o
+sl1src += s1l_cmds_image.o s1l_except.o s1l_fat.o s1l_image_mngt.o
+sl1src += s1l_line_input.o s1l_memtests.o s1l_movdat.o s1l_sys.o
 
-OBJS += sys_mmu_cmd_group.o sysapi_misc.o sysapi_blkdev.o
-OBJS += sysapi_timer.o sysapi_termio.o sys_hw.o cfg_save.o
-OBJS += sysapi_flash.o
+OBJS += $(patsubst %.o, $(NXPMCU_SOFTWARE)/ip/s1l/source/%.o, $(sl1src))
 
-OBJS += write_protect_disable.o
+sl1src2 = sys_mmu_cmd_group.o sysapi_misc.o sysapi_blkdev.o
+sl1src2 += sysapi_timer.o sysapi_termio.o sys_hw.o cfg_save.o
+sl1src2 += sysapi_flash.o
 
-OBJS += sdram_common.o ddr_lp_sdram.o mem_setup.o
-OBJS += cache_support.o startup_entry.o
+OBJS += $(patsubst %.o, ../%.o, $(sl1src2))
+
+OBJS += $(NXPMCU_SOFTWARE)/csps/lpc32xx/bsps/fdi3250/startup/examples/common/write_protect_disable.o
+
+OBJS += $(NXPMCU_SOFTWARE)/csps/lpc32xx/bsps/fdi3250/startup/sdram/sdram_common.o $(NXPMCU_SOFTWARE)/csps/lpc32xx/bsps/fdi3250/startup/sdram/ddr_lp_sdram.o $(NXPMCU_SOFTWARE)/csps/lpc32xx/bsps/fdi3250/startup/board/mem_setup.o
+OBJS += $(NXPMCU_SOFTWARE)/csps/lpc32xx/bsps/fdi3250/startup/cache_support.o startup_entry.o
 
 default: $(OBJS) lpc_libs elf bin hex
 
