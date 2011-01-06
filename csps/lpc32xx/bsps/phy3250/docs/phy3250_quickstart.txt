@@ -1,0 +1,73 @@
+$Id:: phy3250_quickstart.txt 1237 2008-10-24 16:42:21Z wellsk          $
+
+PHY3250 BSP quickstart guide
+
+This quickstart guide will guide you step-by-step on how to install the
+BSP, get the free CodeSourcery tools, do your first build using the
+timer example, and then deploying and executing it using the Stage 1
+loader of the Phytec board.
+
+Step 1 : Install the BSP
+If you haven't installed the BSP yet, install it by simply unzipping
+the BSP zip file in the in the C:/NXPMCU directory. You will need to
+create the NXPMCU directory. After the BSP is unzipped. a directory
+called 'SOFTWARE' should exist in the NXPMCU directory.
+
+Step 2 : Download and install the free CodeCourcery tools
+Go to http://www.codesourcery.com and download the latest verion of
+the CodeSourcery Lite GNU toolchain for ARM processors. Download the
+EABI version for Windows (IA32 Windows installer version). After the
+tools are download, install them and reset your machine.
+
+Step 3 : Setup the tool environment
+Open a CMD shell (cmd.exe) by selecting the Run.. command from the
+Windows start menu. Type in cmd.exe and start the CMD shell. In the
+shell, switch to the C:/NXPMCU/SOFTWARE directory. Type the
+following at the prompt:
+	setenv phy3250 gnu
+The BSP is now configured for the LPC32XX chip with the PHY3250
+board and the CodeSourcery toolchain.
+
+Step 4 : Setup the PHY3250 board and terminal
+Unpack the Phytec 3250 board and connect a serial cable between a
+PC and the bottom serial connector on the board. Start a terminal
+program (TeraTerm is recommend and it is free) on the PC and set up
+the serial port for 115.2K-8-N-1.
+
+Step 5 : Board power up
+Power up the board. A message should appear on the terminal. Press
+any key to get to the command prompt of the stage 1 loader.
+
+Step 6 : Modify board revision defines
+Go to the folloing directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/PHY3250/INCLUDE
+and open the phy3250_board.h file. Modify the three system defines
+at the top of the file by setting their values to the revision
+numbers shown in the varrier board, MPU modle, and LCD board.
+
+Step 7 : Build the timer example
+Go to the following directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/PHY3250/EXAMPLES/TIMER
+Type make to build the timer example. The LPC, CSP, and BSP libraries
+and timer example executable will be built.
+
+Step 8 : Download the executable to the board
+At the stage 1 loader command prompt, type the following:
+	load term srec
+After you press enter, you will get a message to start terminal
+download. Using the terminal's send file function, send the
+timer.srec file in the ../EXAMPLES/TIMER directory to the board.
+Send the file as a binary file with no protocol support. After a
+few seconds, the transfer should finish and the prompt will
+return.
+
+Step 9 : Execute the program
+At the prompt, type exec to start the program. The LED on the board
+will start blinking at an erratic rate (this is what the demo does).
+After a few seconds, the examples will end and the command prompt
+will return.
+
+You have completed your first application on the PHY3250 board.
+Try some of the other applications by doing a make in another
+example directory and repeating steps 7 and 8 for the example.
+Good luck!

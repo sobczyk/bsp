@@ -1,0 +1,418 @@
+
+
+   MEMBER('loader.clw')                               ! This is a MEMBER module
+
+
+   INCLUDE('ABTOOLBA.INC'),ONCE
+   INCLUDE('ABWINDOW.INC'),ONCE
+
+                     MAP
+                       INCLUDE('LOADE001.INC'),ONCE        !Local module prodecure declarations
+                       INCLUDE('LOADE002.INC'),ONCE        !Req'd for module callout resolution
+                       INCLUDE('LOADE003.INC'),ONCE        !Req'd for module callout resolution
+                     END
+
+
+Main PROCEDURE                                        !Generated from procedure template - Window
+
+FilesOpened          BYTE
+window               WINDOW('LPC3250 NOR Flash Loader'),AT(,,341,188),FONT('Arial',8,,,CHARSET:ANSI),ICON('CLARION.ICO'),TIMER(1),SYSTEM,GRAY,IMM
+                       MENUBAR
+                         MENU('&File'),USE(?File)
+                           ITEM('&Exit'),USE(?FileExit),STD(STD:Close)
+                         END
+                         MENU('&Setup'),USE(?Setup)
+                           ITEM('&Port'),USE(?SetupPort)
+                         END
+                         MENU('&Help'),USE(?Help)
+                           ITEM('&About'),USE(?HelpAbout)
+                         END
+                       END
+                       GROUP('Binary File'),AT(4,0,333,44),USE(?Group1),BOXED
+                         PROMPT('File Name:'),AT(14,12),USE(?filename:Prompt)
+                         ENTRY(@s120),AT(52,12,261,10),USE(filename),MSG('Binary file name'),TIP('Binary file name')
+                         BUTTON('...'),AT(317,10,15,14),USE(?FileSearch)
+                         PROMPT('Start Address:'),AT(13,28),USE(?start:Prompt)
+                         ENTRY(@s10),AT(62,28,50,10),USE(startAddress),SKIP,RIGHT(1),COLOR(COLOR:BTNFACE),MSG('Start Address'),TIP('Start Address'),READONLY
+                         PROMPT('Size:'),AT(123,28),USE(?size:Prompt)
+                         ENTRY(@n_10b),AT(141,28,50,10),USE(size),SKIP,RIGHT(1),COLOR(COLOR:BTNFACE),MSG('File Size'),TIP('File Size'),READONLY
+                         CHECK('Include Validation Word?'),AT(198,28),USE(val_word),MSG('Include Validation Word'),TIP('Include Validation Word')
+                         BUTTON('Start'),AT(296,27,38,14),USE(?Start),FONT(,,,FONT:bold)
+                       END
+                       GROUP('Status'),AT(4,45,331,114),USE(?Status),BOXED
+                         LIST,AT(8,54,323,101),USE(?List1),VSCROLL,FORMAT('480L@s120@'),FROM(list)
+                       END
+                       GROUP('Download Progress'),AT(4,160,331,24),USE(?Progress),BOXED
+                         BUTTON('Create test.bin'),AT(278,165,49,14),USE(?Button3),HIDE
+                         PROGRESS,USE(?Progress1),AT(11,171,313,8),RANGE(0,100)
+                       END
+                     END
+
+ThisWindow           CLASS(WindowManager)
+Init                   PROCEDURE(),BYTE,PROC,DERIVED
+Kill                   PROCEDURE(),BYTE,PROC,DERIVED
+TakeAccepted           PROCEDURE(),BYTE,PROC,DERIVED
+TakeWindowEvent        PROCEDURE(),BYTE,PROC,DERIVED
+                     END
+
+Toolbar              ToolbarClass
+
+  CODE
+  GlobalResponse = ThisWindow.Run()
+
+
+ThisWindow.Init PROCEDURE
+
+ReturnValue          BYTE,AUTO
+  CODE
+  com = GETINI('Configuration','COM','COM1','.\Loader.INI')
+  port = GETINI('Configuration','PORT',0,'.\Loader.INI')
+  filename = GETINI('Configuration','BINARY','','.\Loader.INI')
+  val_word = GETINI('Configuration','VALIDATION_WORD',1,'.\Loader.INI')
+  IF filename <> '' THEN
+    OPEN(bin,0)
+    IF ERRORCODE() THEN
+      IF ERRORCODE()<>52 THEN   !file already open error
+        MESSAGE('Error: ' & ERROR() & ' openning file ' & ERRORFILE())
+        PUTINI('Configuration','BINARY','','.\Loader.INI')
+        filename = ''
+      END
+    END
+    size = RECORDS(bin)
+    DISPLAY
+  END
+  GlobalErrors.SetProcedureName('Main')
+  SELF.Request = GlobalRequest
+  ReturnValue =PARENT.Init()
+  IF ReturnValue THEN RETURN ReturnValue.
+  SELF.FirstField = ?filename:Prompt
+  SELF.VCRRequest &= VCRRequest
+  SELF.Errors &= GlobalErrors
+  SELF.AddItem(Toolbar)
+  CLEAR(GlobalRequest)
+  CLEAR(GlobalResponse)
+  Relate:loader.Open
+  FilesOpened = True
+  OPEN(window)
+  SELF.Opened=True
+  SELF.SetAlerts()
+  RETURN ReturnValue
+
+
+ThisWindow.Kill PROCEDURE
+
+ReturnValue          BYTE,AUTO
+  CODE
+  ReturnValue =PARENT.Kill()
+  IF ReturnValue THEN RETURN ReturnValue.
+  IF FilesOpened
+    Relate:loader.Close
+  END
+  GlobalErrors.SetProcedureName
+  RETURN ReturnValue
+
+
+ThisWindow.TakeAccepted PROCEDURE
+
+ReturnValue          BYTE,AUTO
+Looped BYTE
+  CODE
+  LOOP
+    IF Looped
+      RETURN Level:Notify
+    ELSE
+      Looped = 1
+    END
+    CASE ACCEPTED()
+    OF ?Button3
+      filename='c:\test.bin'
+      CREATE(bin)
+      IF ERRORCODE() THEN
+        MESSAGE(ERROR())
+      END
+      OPEN(bin)
+      IF ERRORCODE() THEN
+        MESSAGE(ERROR())
+      END
+      i#=0
+      j#=0
+      LOOP
+        bin:data = i#
+        ADD(bin)
+        IF ERRORCODE() THEN
+          MESSAGE(ERROR())
+        END
+        i#+=1
+        j#+=1
+        IF i#=16 THEN
+          i#=0
+        END
+        IF j#=51200 THEN
+          BREAK
+        END
+      
+      END
+      CLOSE(bin)
+    END
+  ReturnValue =PARENT.TakeAccepted()
+    CASE ACCEPTED()
+    OF ?SetupPort
+      ThisWindow.Update
+      setup
+      ThisWindow.Reset
+    OF ?HelpAbout
+      ThisWindow.Update
+      about
+      ThisWindow.Reset
+    OF ?FileSearch
+      ThisWindow.Update
+      !dir=PATH()
+      FILEDIALOG('Select the binary file...',filename,'BINARY|*.bin',FILE:LongName)
+      !SETPATH(dir)
+      DISPLAY
+      CLOSE(bin)
+      OPEN(bin,0)
+      IF ERRORCODE() THEN
+        IF ERRORCODE()<>52 THEN   !file already open error
+          MESSAGE('Error: ' & ERROR() & ' openning file ' & ERRORFILE())
+          CYCLE
+        END
+      END
+      size = RECORDS(bin)
+      DISPLAY
+      PUTINI('Configuration','BINARY',CLIP(filename),'.\Loader.INI')
+      
+    OF ?val_word
+      PUTINI('Configuration','VALIDATION_WORD',val_word,'.\Loader.INI')
+    OF ?Start
+      ThisWindow.Update
+      IF filename='' THEN
+        MESSAGE('Please, select a binary file','WARNING',Icon:Exclamation)
+        CYCLE
+      END
+      
+      hwin=window{PROP:handle}
+      retcode=ResetPort(port,hwin)
+      retcode=SETPORTEX(port,hwin,0,0,0,0,0)
+      IF retcode<>0 THEN
+        MESSAGE('Error: ' & retcode & ' openning port: ' & com,'ERROR')
+      END
+      
+      retcode=InitPort(port, 115200, 0, 8, 1)
+      IF retcode<>0 THEN
+        MESSAGE('Error: ' & retcode & ' initializing port: ' & com,'ERROR')
+      END
+      FREE(list)
+      q:line='Please, reset the board to start...'
+      ADD(list)
+      q:line='Waiting for BootID...'
+      ADD(list)
+      state = 0          
+      val_word_sent = 0
+    END
+    RETURN ReturnValue
+  END
+  ReturnValue = Level:Fatal
+  RETURN ReturnValue
+
+
+ThisWindow.TakeWindowEvent PROCEDURE
+
+ReturnValue          BYTE,AUTO
+Looped BYTE
+  CODE
+  LOOP
+    IF Looped
+      RETURN Level:Notify
+    ELSE
+      Looped = 1
+    END
+  ReturnValue =PARENT.TakeWindowEvent()
+    CASE EVENT()
+    OF EVENT:Timer
+      retcode = ComGetc(port)
+      IF retcode NOT= -1 THEN
+        char = retcode
+        case state
+        OF 0
+          IF CHR(char) <> '5' THEN
+            RETURN 0
+          END
+          q:line = 'Waiting for BootID...Found!'
+          PUT(list)
+          ComPutc(port, VAL('A'))
+          state=1
+          q:line = 'Sent char A'
+          ADD(list)
+          q:line = 'Waiting for BootID...'
+          ADD(list)
+        OF 1
+          IF CHR(char) <> '5' THEN
+            RETURN 0
+          END
+          q:line = 'Waiting for BootID...Found!'
+          PUT(list)
+          ComPutc(port, VAL('U'))
+          ComPutc(port, VAL('3'))
+          state=2
+          q:line = 'Sent chars U3'
+          ADD(list)
+          q:line = 'Waiting for confirmation...'
+          ADD(list)
+        OF 2
+          IF CHR(char) <> 'R' THEN
+            RETURN 0
+          END
+          q:line = 'Waiting for confirmation...Found!'
+          PUT(list)
+          ComPutc(port, 0)
+          ComPutc(port, 0)
+          ComPutc(port, 0)
+          ComPutc(port, 0)
+          q:line = 'Downloading Loader...'
+          ADD(list)
+      
+          i#=RECORDS(loader)
+          i1#=INT(i#/(256*256*256))
+          i2#=INT(i#/(256*256))
+          i3#=INT(i#/(256))
+          i4#=i# - (i1# * 256 * 256 * 256) - (i2# * 256 * 256) - (i3# * 256)
+          ComPutc(port, i4#)
+          ComPutc(port, i3#)
+          ComPutc(port, i2#)
+          ComPutc(port, i1#)
+      
+          SET(loader)
+          LOOP
+            NEXT(loader)
+            IF ERRORCODE() THEN
+              IF ERRORCODE()<>33 THEN
+                MESSAGE('Error: ' & ERROR() & ' reading loader file','ERROR')
+              END
+              BREAK
+            END
+            ComPutc(port, LOA:data)
+          END
+          q:line = 'Downloading Loader...Completed!'
+          PUT(list)
+          state=3
+          q:line = 'Waiting for Loader...'
+          ADD(list)
+        OF 3
+          IF CHR(char) = 'e' THEN
+            q:line = 'Error Initializing Flash'
+            ADD(list)
+            state = 5
+            retcode=ResetPort(port,hwin)
+            RETURN 0
+          END
+          IF CHR(char) = 'E' THEN
+            q:line = 'Error Erasing Flash'
+            ADD(list)
+            state = 5
+            retcode=ResetPort(port,hwin)
+            RETURN 0
+          END
+          IF CHR(char) <> 'D' THEN
+            RETURN 0
+          END
+          q:line = 'Waiting for Loader...Ok!'
+          PUT(list)
+      
+          i#=0E0000000h         !startAddress
+          i1#=INT(i#/(256*256*256))
+          i2#=INT(i#/(256*256))
+          i3#=INT(i#/(256))
+          i4#=i# - (i1# * 256 * 256 * 256) - (i2# * 256 * 256) - (i3# * 256)
+          ComPutc(port, i4#)
+          ComPutc(port, i3#)
+          ComPutc(port, i2#)
+          ComPutc(port, i1#)
+      
+          i#=size
+          IF val_word THEN
+            i#+=4
+          END
+          i1#=INT(i#/(256*256*256))
+          i2#=INT(i#/(256*256))
+          i3#=INT(i#/(256))
+          i4#=i# - (i1# * 256 * 256 * 256) - (i2# * 256 * 256) - (i3# * 256)
+          ComPutc(port, i4#)
+          ComPutc(port, i3#)
+          ComPutc(port, i2#)
+          ComPutc(port, i1#)
+      
+          ?Progress1{PROP:rangehigh} = i#
+          ?Progress1{PROP:rangelow} = 0
+      
+          index = 1
+          EOF = 0
+          SET(bin)
+          q:line = 'Downloading binary...'
+          ADD(list)
+          state = 4
+      
+        OF 4
+          IF CHR(char) = 'E' THEN
+            q:line = 'Error Programming Flash'
+            ADD(list)
+            state = 5
+            retcode=ResetPort(port,hwin)
+            RETURN 0
+          END
+          IF CHR(char) = 'F' THEN
+            q:line = 'Downloading binary...Finished!'
+            PUT(list)
+            state = 5
+            retcode=ResetPort(port,hwin)
+            RETURN 0
+          END
+      
+          IF CHR(char) <> 'S' THEN
+            RETURN 0
+          END
+          IF val_word AND NOT val_word_sent THEN
+            Computc(port, 0D2h)
+            Computc(port, 09Bh)
+            Computc(port, 057h)
+            Computc(port, 013h)
+            index+=4
+            val_word_sent = 1
+          END
+          LOOP
+            IF EOF THEN
+              Computc(port, 0FFh)
+            ELSE
+              NEXT(bin)
+              IF ERRORCODE() THEN
+                IF ERRORCODE()<>33 THEN
+                  MESSAGE('Error: ' & ERROR() & ' reading loader file','ERROR')
+                END
+                EOF = 1
+                CYCLE
+              END
+              ComPutc(port, BIN:data)
+            END
+            ?Progress1{PROP:Progress} += 1
+            IF index =32768 THEN               
+              index = 1
+              RETURN 0
+            ELSE
+              index+=1
+            END
+          END
+      
+        OF 5
+      
+      
+        ELSE
+      
+        END
+        ?list1{PROP:VScrollPos}=9999
+      END
+    END
+    RETURN ReturnValue
+  END
+  ReturnValue = Level:Fatal
+  RETURN ReturnValue
+

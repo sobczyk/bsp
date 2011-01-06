@@ -1,0 +1,140 @@
+$Id:: phy3250_quickstart.txt 1237 2008-10-24 16:42:21Z wellsk          $
+
+EA3250 startup code and bootloaders
+
+This BSP includes startup code and boot loaders to startup up the
+EA3250 board. The startup code initializes the board, sets up system
+clocking, initializes SDRAM and then launches a C application.
+
+The startup code is broken into the following pieces:
+	System startup code
+	kickstart loader
+	Stage 1 Loader (S1L)
+
+Also included is a burner application for burning the kickstart and
+stage 1 Loader boot appplications.
+
+The EA3250 boots from large block NAND FLASH using a 2 step process.
+The LPC3250 runs from it's internal boot ROM on system reset. It will
+boot the kickstart loader from block 0 of NAND FLASH by loading the
+kickstart image into IRAM at address 0x0 and then tranferring
+cnotrol the loaded image. The kickstart loader initializes GPIOs,
+COPU and bus clocks, SDRAM, and other chip and board functions. It
+then loads the S1L application from NAND block 1 and on into IRAM
+just past the kickstart loader. After S1L is loaded, control is then
+transferred to S1L.
+
+To build and deploy updated kickstart and stage 1 loader applications,
+the following steps must be performed:
+
+Step 1 : Setup the tool environment
+Open a CMD shell (cmd.exe) by selecting the Run.. command from the
+Windows start menu. Type in cmd.exe and start the CMD shell. In the
+shell, switch to the C:/NXPMCU/SOFTWARE directory. Type the
+following at the prompt:
+	setenv ea3250 gnu 2
+The BSP is now configured for the LPC32XX chip with the EA3250
+board and the CodeSourcery toolchain.
+
+Step 2 : Setup the EA3250 board
+Unpack the EA3250 board and connect a USB cable between a PC and the
+serial USB connector on the board. Install the USB serial driver if
+needed. Once a serial port enumerates, determine the serial port
+number.
+
+Step 3 : Reset the board
+Reset the board. A message should appear on the terminal. EA3250
+boards are preinstalled with S1L. Press any key to get to the command
+prompt of the stage 1 loader. (See the startup code.txt file for
+information on how to install and boot laoder S1L if needed.).
+
+Step 4 : Build the kickstart loader
+Go to the following directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/EA3250/STARTUP/EXAMPLES/KICKSTART/KICKSTART_NAND_LB
+Type make to build the loader. The binary image is called
+"kickstart_nand_large_block_rvw.bin".
+
+Step 5 : Build S1L
+Go to the following directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/EA3250/STARTUP/EXAMPLES/S1L/S1L_FROM_KICK
+Type make to build the loader. The binary image is called
+"s1l_from_kick_rvw.bin".
+
+Step 6: Build the kickstart burner
+The kickstart burner applciation is used with the Serial Loader to
+burn the kickstart loader into block 0 of NAND FLASH for boot from
+the LCP32x0 boot ROM.
+Go to the following directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/EA3250/STARTUP/EXAMPLES/BURNERS/NAND_LB/KICKSTART
+Type make to build the loader. The binary image is called
+"burner_kickstart_nand_large_block_rvw.bin".
+
+Step 7: Build the S1L burner
+The S1L burner applciation is used with the Serial Loader to burn
+S1L into block 1 and on of NAND FLASH for boot from the kickstart
+loader.
+Go to the following directory:
+	C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/BSPS/EA3250/STARTUP/EXAMPLES/BURNERS/NAND_LB/S1APP
+Type make to build the loader. The binary image is called
+"burner_s1app_nand_large_block_gnu.bin".
+
+Step 8: Verify the nService mode jumper on the EA3250 is enabled
+This jumper allows the LPC32x0 to boot from the UART used with
+the Serial Loader tool. See the EA3250 documentation for info on
+this.
+
+Step 9: Program the kickstart loader into NAND FLASH
+The Serial Loader tool is in the C:/NXPMCU/SOFTWARE/CSPS/LPC32XX/TOOLS/LPC3250 LOADER
+directory. Start the LPC3250_Loader.exe" application and set the
+COM port to the COM port enumerated via USB. In the "Primary Boot
+(IRAM)" window, select the "burner_kickstart_nand_large_block_rvw.bin"
+binary. In the "Secondary Executable (SDRAM)" windows, select the
+"kickstart_nand_large_block_rvw.bin" binary. Make sure both the
+"Primary Boot" and "Secondary Executable" boxes are checked. Click on
+the "Load bin's/start primary" button and press rest on the board.
+The images will download to the board over the serial port and the
+kickstart loader will be programmed into NAND FLASH. Once all the
+images have transferred, press the "Enable terminal mode" button to
+see the program status. The example output is below.
+
+**********
+--- Switching to programmed mode ---
+Waiting for BootID .. 5 .. found!
+Sending 'A' .. done!
+Expect 2-nd BootId .. 5 .. found!
+Sending 'U','3'.. done!
+Expect 'R' .. R .. found!
+Sending startaddress .. done!
+Sending size .. done!
+Sending code .. done!
+
+--- Loading Secondary executable ---
+Wait for 'X' .. X .. found!
+-- Sending command .. p ..done!
+Sending startaddress .. done!
+Sending size .. done!
+Wait for acceptance from primary boot .. o ..OK!
+Sending code .. done!
+Expect final 't' .. t .. found, 
+---- Secondary Executable loaded. ---
+
+
+--- Enabling terminal mode ---
+Formatting blocks...
+Format complete
+Writting kickstart into flash...
+Verifing data......Successfully
+NAND flash is programmed Successfully
+**********
+
+Step 10: Program S1L into NAND FLASH
+use the Serial loader application from step 9. In the "Primary Boot
+(IRAM)" window, select the "burner_s1app_nand_large_block_gnu.bin"
+binary. In the "Secondary Executable (SDRAM)" windows, select the
+"s1l_from_kick_rvw.bin" binary. Make sure both the "Primary Boot"
+and "Secondary Executable" boxes are checked. Click on the
+"Load bin's/start primary" button and press rest on the board. The
+images will download to the board over the serial port and S1L
+will be programmed into NAND FLASH. Once all the images have
+transferred, press the "Enable terminal mode" button to see the
+program status.

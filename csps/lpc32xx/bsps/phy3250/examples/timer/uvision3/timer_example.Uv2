@@ -1,0 +1,161 @@
+### uVision2 Project, (C) Keil Software
+### Do not modify !
+
+Target (timer_example), 0x0004 // Tools: 'ARM-ADS'
+
+Group (BSP)
+Group (Common)
+Group (CSP)
+Group (Example)
+
+File 1,1,<..\..\..\source\board_mlc_nand_sb_driver.c><board_mlc_nand_sb_driver.c>
+File 1,1,<..\..\..\source\board_nor_flash_driver.c><board_nor_flash_driver.c>
+File 1,1,<..\..\..\source\board_slc_nand_sb_driver.c><board_slc_nand_sb_driver.c>
+File 1,1,<..\..\..\source\board_spi_flash_driver.c><board_spi_flash_driver.c>
+File 1,1,<..\..\..\source\nand_mlc_common.c><nand_mlc_common.c>
+File 1,1,<..\..\..\source\nand_slc_common.c><nand_slc_common.c>
+File 1,1,<..\..\..\source\nand_support_common.c><nand_support_common.c>
+File 1,1,<..\..\..\source\phy3250_board.c><phy3250_board.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_api.c><lpc_api.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_arm922t_cp15_driver.c><lpc_arm922t_cp15_driver.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_bmp.c><lpc_bmp.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_colors.c><lpc_colors.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_fat16.c><lpc_fat16.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_fat16_private.c><lpc_fat16_private.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_fonts.c><lpc_fonts.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_heap.c><lpc_heap.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_helvr10.c><lpc_helvr10.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_lbecc.c><lpc_lbecc.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_lcd_params.c><lpc_lcd_params.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_line_parser.c><lpc_line_parser.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_nandflash_params.c><lpc_nandflash_params.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_rom8x8.c><lpc_rom8x8.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_rom8x16.c><lpc_rom8x16.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_string.c><lpc_string.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_swim.c><lpc_swim.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_swim_font.c><lpc_swim_font.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_swim_image.c><lpc_swim_image.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_winfreesystem14x16.c><lpc_winfreesystem14x16.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_x5x7.c><lpc_x5x7.c>
+File 2,1,<..\..\..\..\..\..\..\lpc\source\lpc_x6x13.c><lpc_x6x13.c>
+File 3,1,<..\..\..\..\..\source\lpc3xxx_spwm_driver.c><lpc3xxx_spwm_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_adc_driver.c><lpc32xx_adc_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_clcdc_driver.c><lpc32xx_clcdc_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_clkpwr_driver.c><lpc32xx_clkpwr_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_dma_driver.c><lpc32xx_dma_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_gpio_driver.c><lpc32xx_gpio_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_hstimer_driver.c><lpc32xx_hstimer_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_hsuart_driver.c><lpc32xx_hsuart_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_i2c_driver.c><lpc32xx_i2c_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_i2s_driver.c><lpc32xx_i2s_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_intc_driver.c><lpc32xx_intc_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_kscan_driver.c><lpc32xx_kscan_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_mlcnand_driver.c><lpc32xx_mlcnand_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_mstimer_driver.c><lpc32xx_mstimer_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_mstr_i2c_driver.c><lpc32xx_mstr_i2c_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_pwm_driver.c><lpc32xx_pwm_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_rtc_driver.c><lpc32xx_rtc_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_sdcard_driver.c><lpc32xx_sdcard_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_slcnand_driver.c><lpc32xx_slcnand_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_spi_driver.c><lpc32xx_spi_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_ssp_driver.c><lpc32xx_ssp_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_timer_driver.c><lpc32xx_timer_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_tsc_driver.c><lpc32xx_tsc_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_uart_driver.c><lpc32xx_uart_driver.c>
+File 3,1,<..\..\..\..\..\source\lpc32xx_wdt_driver.c><lpc32xx_wdt_driver.c>
+File 3,2,<..\..\..\..\..\source\lpc32xx_vectors.s><lpc32xx_vectors.s>
+File 4,1,<..\timer_example.c><timer_example.c>
+File 4,2,<..\..\common\crt0_rvw.s><crt0_rvw.s>
+File 4,2,<..\..\common\uvision3\keil_stack_setup.s><keil_stack_setup.s>
+
+
+Options 1,0,0  // Target 'timer_example'
+ Device (LPC3250)
+ Vendor (NXP (founded by Philips))
+ Cpu (IRAM(0x08000000-0x0803FFFF) IROM(0-0x3FFF) CLOCK(13000000) CPUTYPE(ARM926EJ-S) FPU(ANSI))
+ FlashUt ()
+ StupF ("STARTUP\Philips\LPC32x0.s" ("Philips LPC32x0 Startup Code"))
+ FlashDR ()
+ DevID (4596)
+ Rgf (LPC325x.H)
+ Mem ()
+ C ()
+ A ()
+ RL ()
+ OH ()
+ DBC_IFX ()
+ DBC_CMS ()
+ DBC_AMS ()
+ DBC_LMS ()
+ UseEnv=0
+ EnvBin ()
+ EnvInc ()
+ EnvLib ()
+ EnvReg (ÿPhilips\)
+ OrgReg (ÿPhilips\)
+ TgStat=16
+ OutDir (.\output\)
+ OutName (timer_example)
+ GenApp=1
+ GenLib=0
+ GenHex=1
+ Debug=1
+ Browse=1
+ LstDir (.\output\)
+ HexSel=1
+ MG32K=0
+ TGMORE=0
+ RunUsr 0 0 <>
+ RunUsr 1 0 <>
+ BrunUsr 0 0 <>
+ BrunUsr 1 0 <>
+ CrunUsr 0 0 <>
+ CrunUsr 1 0 <>
+ SVCSID <>
+ GLFLAGS=1790
+ ADSFLGA { 243,31,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ACPUTYP (ARM926EJ-S)
+ RVDEV ()
+ ADSTFLGA { 0,204,0,2,99,0,0,66,0,0,0,0,0,0,0,0,0,0,0,0 }
+ OCMADSOCM { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ OCMADSIRAM { 0,0,0,0,8,0,0,4,0 }
+ OCMADSIROM { 1,0,0,0,0,0,64,0,0 }
+ OCMADSXRAM { 0,0,0,0,0,0,0,0,0 }
+ OCR_RVCT { 1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,64,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,4,0,0,0,0,0,0,0,0,0,0 }
+ RV_STAVEC ()
+ ADSCCFLG { 5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSCMISC ()
+ ADSCDEFN ()
+ ADSCUDEF ()
+ ADSCINCD (..\..\..\..\..\..\..\lpc\include;..\..\..\..\..\include;..\..\..\include)
+ ADSASFLG { 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSAMISC ()
+ ADSADEFN ()
+ ADSAUDEF ()
+ ADSAINCD ()
+ PropFld { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ IncBld=1
+ AlwaysBuild=0
+ GenAsm=0
+ AsmAsm=0
+ PublicsOnly=0
+ StopCode=3
+ CustArgs ()
+ LibMods ()
+ ADSLDFG { 16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
+ ADSLDTA (0x00000000)
+ ADSLDDA (0x08000000)
+ ADSLDSC (..\..\common\uvision3\keil_simple.sct)
+ ADSLDIB ()
+ ADSLDIC ()
+ ADSLDMC ()
+ ADSLDIF ()
+ ADSLDDW ()
+  OPTDL (SARM.DLL)(-cLPC3000)(DARMP3.DLL)(-pLPC3250)(SARM.DLL)()(TARMP3.DLL)(-pLPC3000)
+  OPTDBG 47614,0,()()()()()()()()()(..\..\common\uvision3\board_init.ini) (BIN\UL2ARM.DLL)()()()
+ FLASH1 { 1,0,0,0,1,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0 }
+ FLASH2 (BIN\UL2ARM.DLL)
+ FLASH3 ("" ())
+ FLASH4 ()
+EndOpt
+

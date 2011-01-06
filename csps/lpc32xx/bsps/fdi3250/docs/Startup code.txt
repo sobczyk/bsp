@@ -1,0 +1,27 @@
+FDI startup code and bootloaders
+
+This BSP includes startup code and boot loaders to startup up the
+FDI3250 board. The startup code initializes the board, sets up system
+clocking, initializes SDRAM and then launches a C application.
+
+The startup code is broken into the following pieces:
+	System startup code
+	kickstart loader
+	Stage 1 Loader (S1L)
+
+Also included is a burner application for burning the kickstart and
+stage 1 Loader boot appplications.
+
+The FDI3250 boots from large block NAND FLASH using a 2 step process.
+The LPC3250 runs from it's internal boot ROM on system reset. It will
+boot the kickstart loader from block 0 of NAND FLASH by loading the
+kickstart image into IRAM at address 0x0 and then tranferring
+cnotrol the loaded image. The kickstart loader initializes GPIOs,
+COPU and bus clocks, SDRAM, and other chip and board functions. It
+then loads the S1L application from NAND block 1 and on into IRAM
+just past the kickstart loader. After S1L is loaded, control is then
+transferred to S1L.
+
+For information on how to program the kickstart loader and S1L on
+your board, go to:
+http://www.lpclinux.com/LPC32xx/LPC32x0BoardFDI3250bootloadersrestore
