@@ -87,7 +87,7 @@ int _read(int file, char *ptr, int len){
     return 0;
 }
 
-caddr_t _sbrk(int incr){
+extern void * _sbrk(int incr){
   extern char end;		/* Defined by the linker */
   static char *heap_end;
   char *prev_heap_end;
@@ -100,7 +100,7 @@ caddr_t _sbrk(int incr){
   prev_heap_end = heap_end;
 
   heap_end += incr;
-  return (caddr_t) prev_heap_end;
+  return (void*) prev_heap_end;
 }
 
 int _stat(char *file, struct stat *st) {
