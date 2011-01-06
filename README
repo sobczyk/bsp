@@ -19,9 +19,12 @@ can be changed in toolchain_arm.cmake
 Working:
 - build Kickstart with .bin
 - build s1l with .bin
+- build kickstart_jtag
+- build s1l_jtag
+- build nand_erase_jtag
 - ONLY FDI3250 dev board
 
 TODO:
-
+- per target as defines
 - build burners
 - add custom board
