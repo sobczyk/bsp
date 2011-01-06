@@ -47,6 +47,11 @@ SECTIONS
         *(.rodata .rodata.*); 
     }
 
+	.ARM.extab	: { *(.ARM.extab* .gnu.linkonce.armextab.*) }
+	__exidx_start = .;
+	.ARM.exidx	: { *(.ARM.exidx* .gnu.linkonce.armexidx.*) }
+	__exidx_end = .;
+
     /* (Real) End of .text segment */
     /* Set up the location counter for the data area */
     . = .;

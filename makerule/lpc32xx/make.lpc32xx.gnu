@@ -39,7 +39,7 @@ LDFLAGS  += -Wl,--gc-sections
 
 LK       =  -static
 LK       += -Wl,--start-group $(TARGET_CSP_LIB) $(TARGET_BSP_LIB) $(TARGET_GEN_LIB)
-LK       +=  -lgcc -lc -lg -lm -lstdc++ -lsupc++ 
+LK       +=  -lgcc -lc -lm
 LK       += -Wl,--end-group
 MAP      = -Xlinker -Map -Xlinker
 LDESC    = -Xlinker -T  
