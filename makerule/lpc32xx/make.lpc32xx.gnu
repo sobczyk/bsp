@@ -19,7 +19,7 @@
 # use without further testing or modification. 
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.environment
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.environment
 
 CPU      = arm926ej-s
 CFLAGS   = -mcpu=arm926ej-s -Wall -Os
@@ -27,14 +27,14 @@ CFLAGS   += -mno-sched-prolog -fno-hosted -mno-thumb-interwork
 CFLAGS   += -I$(CSP_INC_DIR) -I$(BSP_INC_DIR) -I$(GEN_INC_DIR)
 AFLAGS   = -mcpu=arm926ej-s
 AFLAGS   += -I$(CSP_INC_DIR) -I$(BSP_INC_DIR) -I$(GEN_INC_DIR)
-CC       = arm-none-eabi-gcc
-AS       = arm-none-eabi-as
-AR       = arm-none-eabi-ar -r
-LD       = arm-none-eabi-gcc
-NM       = arm-none-eabi-nm
-OBJDUMP  = arm-none-eabi-objdump
-OBJCOPY  = arm-none-eabi-objcopy
-READELF  = arm-none-eabi-readelf
+CC       = arm-linux-gcc
+AS       = arm-linux-as
+AR       = arm-linux-ar -r
+LD       = arm-linux-gcc
+NM       = arm-linux-nm
+OBJDUMP  = arm-linux-objdump
+OBJCOPY  = arm-linux-objcopy
+READELF  = arm-linux-readelf
 LDFLAGS  += -Wl,--gc-sections
 
 LK       =  -static
@@ -47,6 +47,6 @@ ENTRY    = -e
 BIN      = -bin
 EXT      = .elf
 LEXT     = 
-ELFTOREC =arm-none-eabi-objcopy -O srec --strip-all --verbose
-ELFTOBIN =arm-none-eabi-objcopy -I elf32-littlearm -O binary --strip-all --verbose
+ELFTOREC =arm-linux-objcopy -O srec --strip-all --verbose
+ELFTOBIN =arm-linux-objcopy -I elf32-littlearm -O binary --strip-all --verbose
 REC      =.srec

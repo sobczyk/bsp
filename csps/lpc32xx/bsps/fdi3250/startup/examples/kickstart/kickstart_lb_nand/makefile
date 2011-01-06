@@ -24,8 +24,8 @@ EXECNAME    =kickstart_nand_large_block_$(TOOL)
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\$(CSP)\make.$(CSP).$(TOOL)
-include $(NXPMCU_SOFTWARE)\csps\$(CSP)\bsps\$(BSP)\startup\examples\buildfiles\make.env
+include $(NXPMCU_SOFTWARE)/makerule/$(CSP)/make.$(CSP).$(TOOL)
+include $(NXPMCU_SOFTWARE)/csps/$(CSP)/bsps/$(BSP)/startup/examples/buildfiles/make.env
 
 ########################################################################
 # ARM Realview
@@ -40,7 +40,7 @@ AFLAGS += --predefine "USE_BOARD_INIT SETL {TRUE}"
 
 # The kickstart loader loads and executes at address 0x0 in IRAM.
 # Suitable for NAND FLASH and SPI boot modes
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -57,7 +57,7 @@ AFLAGS += --predefine "USE_BOARD_INIT SETL {TRUE}"
 
 # The kickstart loader loads and executes at address 0x0 in IRAM.
 # Suitable for NAND FLASH and SPI boot modes
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -74,7 +74,7 @@ AFLAGS += --defsym USE_BOARD_INIT=1
 
 # The kickstart loader loads and executes at address 0x0 in IRAM.
 # Suitable for NAND FLASH and SPI boot modes
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_gnu.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_gnu.ld
 
 endif
 
@@ -110,7 +110,7 @@ endif
 # Pick up the assembler and C source files in the directory  
 #
 ########################################################################
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.ftypes
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.ftypes
 
 ########################################################################
 #
@@ -158,7 +158,7 @@ endif
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.build
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.build
 
 .PHONY: debug bin
 

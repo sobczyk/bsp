@@ -24,8 +24,8 @@ EXECNAME    =eraser_lb_nand_$(TOOL)
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\$(CSP)\make.$(CSP).$(TOOL)
-include $(NXPMCU_SOFTWARE)\csps\$(CSP)\bsps\$(BSP)\startup\examples\buildfiles\make.env
+include $(NXPMCU_SOFTWARE)/makerule/$(CSP)/make.$(CSP).$(TOOL)
+include $(NXPMCU_SOFTWARE)/csps/$(CSP)/bsps/$(BSP)/startup/examples/buildfiles/make.env
 
 ########################################################################
 # ARM Realview
@@ -39,7 +39,7 @@ ifeq ($(TOOL), rvw)
 #AFLAGS += --predefine "RW_RELOC SETL {TRUE}"
 
 # This runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -55,7 +55,7 @@ ifeq ($(TOOL), keil)
 #AFLAGS += --predefine "RW_RELOC SETL {TRUE}"
 
 # This runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -71,7 +71,7 @@ ifeq ($(TOOL), gnu)
 #AFLAGS += --defsym RW_RELOC=1
 
 # This runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_gnu.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_gnu.ld
 
 endif
 
@@ -107,7 +107,7 @@ endif
 # Pick up the assembler and C source files in the directory  
 #
 ########################################################################
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.ftypes
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.ftypes
 
 ########################################################################
 #
@@ -155,6 +155,6 @@ endif
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.build
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.build
 
 .PHONY: debug bin

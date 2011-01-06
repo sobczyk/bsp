@@ -18,4 +18,4 @@
 
 EXECNAME    =burner_s1app_nand_large_block_jtag_$(TOOL)
 
-include $(NXPMCU_SOFTWARE)\csps\$(CSP)\bsps\$(BSP)\startup\examples\burners\makefile.burner
+include $(NXPMCU_SOFTWARE)/csps/$(CSP)/bsps/$(BSP)/startup/examples/burners/makefile.burner

@@ -31,12 +31,12 @@ else
 endif
 MKDEPS          =makedepend
 MKDIR           =mkdir
-#RM             =rm -f
-#RMREC          =rm -rf
-#RMDIR          =rm -rf
-RM              =del /Q
-RMREC           =del /S /Q
-RMDIR           =rd /S /Q 
+RM             =rm -f
+RMREC          =rm -rf
+RMDIR          =rm -rf
+#RM              =del /Q
+#RMREC           =del /S /Q
+#RMDIR           =rd /S /Q 
 ASTYLE          =astyle --options=$(BUILD_ROOT)/tools/astyle.cfg 
 
 
@@ -52,7 +52,7 @@ ASTYLE          =astyle --options=$(BUILD_ROOT)/tools/astyle.cfg
 #
 ########################################################################
   
-CSP_LIB_DIR  =$(BUILD_ROOT)\csps\$(CSP)\lib
+CSP_LIB_DIR  =$(BUILD_ROOT)/csps/$(CSP)/lib
 
 ########################################################################
 #
@@ -60,7 +60,7 @@ CSP_LIB_DIR  =$(BUILD_ROOT)\csps\$(CSP)\lib
 #
 ########################################################################
 
-BSP_LIB_DIR =$(BUILD_ROOT)\csps\$(CSP)\bsps\$(BSP)\lib
+BSP_LIB_DIR =$(BUILD_ROOT)/csps/$(CSP)/bsps/$(BSP)/lib
 
 ########################################################################
 #
@@ -68,7 +68,7 @@ BSP_LIB_DIR =$(BUILD_ROOT)\csps\$(CSP)\bsps\$(BSP)\lib
 #
 ########################################################################
 
-GEN_LIB_DIR =$(BUILD_ROOT)\$(GEN)\lib
+GEN_LIB_DIR =$(BUILD_ROOT)/$(GEN)/lib
 
 ########################################################################
 # 
@@ -76,9 +76,9 @@ GEN_LIB_DIR =$(BUILD_ROOT)\$(GEN)\lib
 # 
 ########################################################################
 
-CSP_DIR     =$(BUILD_ROOT)\csps\$(CSP)
-CSP_SRC_DIR =$(CSP_DIR)\source
-CSP_INC_DIR =$(CSP_DIR)\include
+CSP_DIR     =$(BUILD_ROOT)/csps/$(CSP)
+CSP_SRC_DIR =$(CSP_DIR)/source
+CSP_INC_DIR =$(CSP_DIR)/include
 
 ########################################################################
 # 
@@ -86,9 +86,9 @@ CSP_INC_DIR =$(CSP_DIR)\include
 # 
 ########################################################################
 
-BSP_DIR     =$(BUILD_ROOT)\csps\$(CSP)\bsps\$(BSP)
-BSP_SRC_DIR =$(BSP_DIR)\source
-BSP_INC_DIR =$(BSP_DIR)\include
+BSP_DIR     =$(BUILD_ROOT)/csps/$(CSP)/bsps/$(BSP)
+BSP_SRC_DIR =$(BSP_DIR)/source
+BSP_INC_DIR =$(BSP_DIR)/include
 
 ########################################################################
 # 
@@ -96,9 +96,9 @@ BSP_INC_DIR =$(BSP_DIR)\include
 # 
 ########################################################################
 
-GEN_DIR     =$(BUILD_ROOT)\$(GEN)
-GEN_SRC_DIR =$(GEN_DIR)\source
-GEN_INC_DIR =$(GEN_DIR)\include
+GEN_DIR     =$(BUILD_ROOT)/$(GEN)
+GEN_SRC_DIR =$(GEN_DIR)/source
+GEN_INC_DIR =$(GEN_DIR)/include
 
 ########################################################################
 #
@@ -151,6 +151,6 @@ endif
 # 
 ########################################################################
 
-TARGET_CSP_LIB =$(CSP_LIB_DIR)\$(CSP_ARCHIVE)
-TARGET_BSP_LIB =$(BSP_LIB_DIR)\$(BSP_ARCHIVE)
-TARGET_GEN_LIB =$(GEN_LIB_DIR)\$(GEN_ARCHIVE)
+TARGET_CSP_LIB =$(CSP_LIB_DIR)/$(CSP_ARCHIVE)
+TARGET_BSP_LIB =$(BSP_LIB_DIR)/$(BSP_ARCHIVE)
+TARGET_GEN_LIB =$(GEN_LIB_DIR)/$(GEN_ARCHIVE)

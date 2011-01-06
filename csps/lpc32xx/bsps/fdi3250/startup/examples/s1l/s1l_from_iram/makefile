@@ -24,8 +24,8 @@ EXECNAME    =s1l_from_iram_$(TOOL)
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\$(CSP)\make.$(CSP).$(TOOL)
-include $(NXPMCU_SOFTWARE)\csps\$(CSP)\bsps\$(BSP)\startup\examples\buildfiles\make.env
+include $(NXPMCU_SOFTWARE)/makerule/$(CSP)/make.$(CSP).$(TOOL)
+include $(NXPMCU_SOFTWARE)/csps/$(CSP)/bsps/$(BSP)/startup/examples/buildfiles/make.env
 
 ########################################################################
 # ARM Realview
@@ -39,7 +39,7 @@ AFLAGS += --predefine "USE_ALL_STACKS SETL {TRUE}"
 #AFLAGS += --predefine "RW_RELOC SETL {TRUE}"
 
 # S1L runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -55,7 +55,7 @@ AFLAGS += --predefine "USE_ALL_STACKS SETL {TRUE}"
 #AFLAGS += --predefine "RW_RELOC SETL {TRUE}"
 
 # S1L runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_rvw.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_rvw.ld
 
 endif
 
@@ -71,7 +71,7 @@ AFLAGS += --defsym USE_ALL_STACKS=1
 #AFLAGS += --defsym RW_RELOC=1
 
 # S1L runs from IRAM
-LDSCRIPT =$(BASE_BSP)\startup\examples\buildfiles\ldscript_iram_gnu.ld
+LDSCRIPT =$(BASE_BSP)/startup/examples/buildfiles/ldscript_iram_gnu.ld
 
 endif
 
@@ -86,7 +86,7 @@ MEXT        =.map
 MAPFILE     =$(EXECNAME)
 C_ENTRY     =
 ENTRY       =
-CFLAGS      += -I $(NXPMCU_SOFTWARE)\ip\s1l\include
+CFLAGS      += -I $(NXPMCU_SOFTWARE)/ip/s1l/include
 endif
 
 ifeq ($(TOOL), keil)
@@ -94,7 +94,7 @@ MEXT        =.map
 MAPFILE     =$(EXECNAME)
 C_ENTRY     =
 ENTRY       =
-CFLAGS      += -I $(NXPMCU_SOFTWARE)\ip\s1l\include
+CFLAGS      += -I $(NXPMCU_SOFTWARE)/ip/s1l/include
 endif
 
 ifeq ($(TOOL), gnu)
@@ -102,17 +102,17 @@ MEXT        =.map
 MAPFILE     =$(EXECNAME)
 C_ENTRY     =
 ENTRY       =
-CFLAGS      += -I $(NXPMCU_SOFTWARE)\ip\s1l\include
+CFLAGS      += -I $(NXPMCU_SOFTWARE)/ip/s1l/include
 endif
 
-VPATH += $(NXPMCU_SOFTWARE)\ip\s1l\source;
+VPATH += $(NXPMCU_SOFTWARE)/ip/s1l/source;
 
 ########################################################################
 #
 # Pick up the assembler and C source files in the directory  
 #
 ########################################################################
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.ftypes
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.ftypes
 
 ########################################################################
 #
@@ -170,6 +170,6 @@ endif
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.build
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.build
 
 .PHONY: debug bin

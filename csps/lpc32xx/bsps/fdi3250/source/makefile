@@ -22,16 +22,16 @@
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\$(CSP)\make.$(CSP).$(TOOL)
+include $(NXPMCU_SOFTWARE)/makerule/$(CSP)/make.$(CSP).$(TOOL)
 
 ########################################################################
 #
 # Pick up the assembler and C source files in the directory  
 #
 ########################################################################
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.ftypes
-AFLAGS +=-I..\Include
-CFLAGS +=-I..\Include
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.ftypes
+AFLAGS +=-I../Include
+CFLAGS +=-I../Include
 
 ########################################################################
 #
@@ -53,7 +53,7 @@ lib_clean:
 # delete all targets this Makefile can make and all built libraries
 # linked in
 lib_realclean: 
-	-@$(RM) $(BSP_LIB_DIR)\*.a
+	-@$(RM) $(BSP_LIB_DIR)/*.a
 	-@$(RMDIR) $(BSP_LIB_DIR)
 	
 clean: lib_clean
@@ -65,7 +65,7 @@ realclean: lib_realclean
 #
 ########################################################################
 
-include $(NXPMCU_SOFTWARE)\makerule\common\make.rules.build
+include $(NXPMCU_SOFTWARE)/makerule/common/make.rules.build
 
 .PHONY: all lib_clean lib_realclean
 
